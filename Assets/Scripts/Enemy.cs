@@ -3,20 +3,20 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    public PlayerPointsSystem playerhealthBar;
+    public EnemyPointsSystem enemyhealthBar;
     public int maxhealth = 100; 
     public int currentHealth; 
     public float timeStart;
     public float timeOut;
-    public GameObject GameOverFinal;
+    public GameObject YouWinYay;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentHealth = maxhealth;
-        playerhealthBar.SetMaxHealth(maxhealth);
+        enemyhealthBar.SetMaxHealth(maxhealth);
     }
 
     // Update is called once per frame
@@ -28,32 +28,31 @@ public class Player : MonoBehaviour
         Debug.Log("Current Health: " + currentHealth);
         if (currentTime >= timeOut)
         {
-            GameOver();
+            YouWin();
         }
 
-        float timeElapsed = Time.time - startTime; 
-        if (timeElapsed > -1f)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            TakeDamage(1);
+            TakeDamage(2);
         }
 
     void TakeDamage(int damage)
     {
         currentHealth = currentHealth - damage;
         currentHealth -= damage;
-        playerhealthBar.SetHealth(currentHealth);
+        enemyhealthBar.SetHealth(currentHealth);
     }
     }
 
-    public void GameOver()
+    public void YouWin()
     {
        if (currentHealth <= 0)
        {
-           // Trigger game over logic
-           GameOverFinal.SetActive(true);
+           // Trigger you win logic
+           YouWinYay.SetActive(true);
        }
 
-        if (GameOverFinal.activeSelf)
+        if (YouWinYay.activeSelf)
         {
             UnityEditor.EditorApplication.isPlaying = false;
         }
